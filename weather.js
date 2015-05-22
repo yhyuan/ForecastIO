@@ -46,7 +46,10 @@ setInterval(function() {
                 for( var i=0; i < 32; i++ )
                     text += possible.charAt(Math.floor(Math.random() * possible.length));
                 return text;
-            };        
+            };
+            var convertWindBearing = function (windBearing) {
+                return Math.floor((windBearing + 22.5*0.5)/22.5) % 16 + 1;
+            };
             var results = _.map(data.hourly.data, function(h) {
                 var date = new Date(h.time*1000);
                 var year = date.getFullYear();
@@ -61,7 +64,7 @@ setInterval(function() {
                 var s = date.getSeconds();
                 s = (s < 10) ? ('0' + s) : s;
                 var d = year + "-" + month + "-" + day  + " " + hh + ":" + m + ":" + s;
-                return [makeid(), id, d, h.temperature, h.humidity, h.pressure, h.windSpeed, h.windBearing, h.precipIntensity , h.cloudCover];
+                return [makeid(), id, d, h.temperature, h.humidity*100, h.pressure*100, h.windSpeed, convertWindBearing(h.windBearing), h.precipIntensity , h.cloudCover];
             });
             deferred.resolve(results);
         });
@@ -93,8 +96,7 @@ setInterval(function() {
         });
         return Q.all(promises);    
     }).then(function (results) {
-        //console.log(results);
+        console.log(results);
         connection.end();    
     });
-
 }, 1000*60*60);
