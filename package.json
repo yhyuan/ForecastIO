@@ -1,10 +1,16 @@
 {
   "name": "forecastio",
   "version": "0.0.1",
+  "scripts": {
+    "start": "node weather.js",
+	"install-windows-service": "winser -i",
+    "uninstall-windows-service": "winser -r"
+  },
   "dependencies": {
     "forecastio": "^0.2.0",
     "mysql": "^2.5.4",
     "q": "^1.4.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "winser": "^1.0.0"
   }
 }
